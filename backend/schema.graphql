@@ -1,0 +1,29 @@
+type Query {
+  getPaymentById(paymentId: ID!): Payment
+  getPaymentStatus(orderId: ID!): String
+  getPaymentsByUser(userId: ID!): [Payment]
+  getAllPayments: [Payment!]!
+  deletePayment(id: ID!): Boolean
+}
+
+type Mutation {
+  createPayment(orderId: ID!, userId: ID!, amount: Float!, method: String!): Payment
+  updatePaymentStatus(paymentId: ID!, status: String!): Payment
+  deletePayment(paymentId: ID!): DeleteResult
+}
+
+type Payment {
+  paymentId: ID!
+  orderId: ID!
+  userId: ID!
+  amount: Float!
+  paymentMethod: String!
+  status: String!
+  createdAt: String
+  paidAt: String
+}
+
+type DeleteResult {
+  success: Boolean!
+  message: String!
+}

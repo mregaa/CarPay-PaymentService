@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CarPay - Pembayaran</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>💳 CarPay</h1>
+      <p class="subtitle">Secure Payment Service</p>
+    </div>
+
+    <!-- Flash Messages -->
+    <div class="alert success" style="display: none;">
+      Payment processed successfully!
+    </div>
+
+    <div class="main-content">
+      <!-- Payment Form Section -->
+      <div class="payment-section">
+        <h2>💰 New Payment</h2>
+        
+        <form method="post" id="paymentForm">
+          <div class="form-group">
+            <label for="order_id">Order ID</label>
+            <input type="text" id="order_id" name="order_id" class="form-control" placeholder="Enter order ID" required>
+          </div>
+
+          <div class="form-group">
+            <label for="user_id">User ID</label>
+            <input type="text" id="user_id" name="user_id" class="form-control" placeholder="Enter user ID" required>
+          </div>
+
+          <div class="form-group">
+            <label for="amount">Amount (IDR)</label>
+            <input type="number" id="amount" name="amount" class="form-control" placeholder="0.00" step="0.01" min="0" required>
+          </div>
+
+          <div class="form-group">
+            <label>Payment Method</label>
+            <div class="payment-methods">
+              <input type="radio" id="credit_card" name="method" value="credit_card" class="method-option" checked>
+              <label for="credit_card" class="method-label">
+                <span class="card-icon">💳</span>
+                Credit Card
+              </label>
+
+              <input type="radio" id="bank_transfer" name="method" value="bank_transfer" class="method-option">
+              <label for="bank_transfer" class="method-label">
+                <span class="bank-icon">🏦</span>
+                Bank Transfer
+              </label>
+            </div>
+          </div>
+
+          <button type="submit" class="btn-submit">
+            <span class="loading" style="display: none;"></span>
+            Process Payment
+          </button>
+        </form>
+      </div>
+
+      <!-- Payment History Section -->
+      <div class="history-section">
+        <h2>📊 Payment History</h2>
+        
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Order</th>
+                <th>User</th>
+                <th>Amount</th>
+                <th>Method</th>
+                <th>Status</th>
+                <th>Date</th>
+                <th>Paid at</th>
+              </tr>
+            </thead>
+            <tbody id="paymentHistory">
+              {% for p in payments %}
+                <tr>
+                  <td>{{ p.paymentId }}</td>
+                  <td>{{ p.orderId }}</td>
+                  <td>{{ p.userId }}</td>
+                  <td>{{ p.amount }}</td>
+                  <td>{{ p.paymentMethod }}</td>
+                  <td>{{ p.status }}</td>
+                  <td>{{ p.createdAt }}</td>
+                  <td>{{ p.paidAt or '-' }}</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Form submission animation
+    document.getElementById('paymentForm').addEventListener('submit', function(e) {
+      const submitBtn = this.querySelector('.btn-submit');
+      const loading = submitBtn.querySelector('.loading');
+      
+      loading.style.display = 'inline-block';
+      submitBtn.disabled = true;
+      
+      // In real implementation, remove this setTimeout
+      setTimeout(() => {
+        loading.style.display = 'none';
+        submitBtn.disabled = false;
+      }, 2000);
+    });
+
+    // Format currency input
+    document.getElementById('amount').addEventListener('input', function(e) {
+      let value = e.target.value;
+      if (value) {
+        // Add thousand separators (simplified)
+        e.target.setAttribute('data-formatted', new Intl.NumberFormat('id-ID').format(value));
+      }
+    });
+
+    // Add hover effects for table rows
+    document.querySelectorAll('tbody tr').forEach(row => {
+      row.addEventListener('mouseenter', function() {
+        this.style.boxShadow = '0 4px 15px rgba(102, 126, 234, 0.1)';
+      });
+      
+      row.addEventListener('mouseleave', function() {
+        this.style.boxShadow = 'none';
+      });
+    });
+  </script>
+</body>
+</html>
