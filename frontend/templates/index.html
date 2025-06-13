@@ -80,6 +80,7 @@
                 <th>Status</th>
                 <th>Date</th>
                 <th>Paid at</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody id="paymentHistory">
@@ -90,9 +91,29 @@
                   <td>{{ p.userId }}</td>
                   <td>{{ p.amount }}</td>
                   <td>{{ p.paymentMethod }}</td>
-                  <td>{{ p.status }}</td>
+                  <td>
+                      <form action="{{ url_for('edit_payment', payment_id=p.paymentId) }}" method="post" style="margin:0;">
+                          <select name="status" class="status-dropdown" style="display:none;" onchange="this.form.submit()">
+                              <option value="PENDING" {% if p.status == 'PENDING' %}selected{% endif %}><span class="status pending">Pending</span></option>
+                              <option value="FAILED" {% if p.status == 'FAILED' %}selected{% endif %}><span class="status failed">Failed</span></option>
+                              <option value="SUCCESS" {% if p.status == 'SUCCESS' %}selected{% endif %}><span class="status success">Success</span></option>
+                          </select>
+                          <span class="status-text" onclick="showDropdown(this)">{{ p.status }}</span>
+                      </form>
+                  </td>
                   <td>{{ p.createdAt }}</td>
-                  <td>{{ p.paidAt or '-' }}</td>
+                  <td>
+                      {% if p.status == 'SUCCESS' %}
+                        {{ p.paidAt or '-' }}
+                      {% else %}
+                        -
+                      {% endif %}
+                  </td>
+                  <td>
+                      <form action="{{ url_for('delete_payment', payment_id=p.paymentId) }}" method="post" style="display:inline;" onsubmit="return confirm('Yakin ingin menghapus pembayaran ini?');">
+                          <button type="submit" class="btn-delete">Hapus</button>
+                      </form>
+                  </td>
                 </tr>
               {% endfor %}
             </tbody>
@@ -137,6 +158,13 @@
         this.style.boxShadow = 'none';
       });
     });
+
+    function showDropdown(span) {
+      const form = span.closest('form');
+      form.querySelector('.status-text').style.display = 'none';
+      form.querySelector('.status-dropdown').style.display = 'inline-block';
+      form.querySelector('.status-dropdown').focus();
+  }
   </script>
 </body>
 </html>

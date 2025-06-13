@@ -16,7 +16,7 @@ def init_db():
         user_id TEXT NOT NULL,
         amount REAL NOT NULL,
         payment_method TEXT NOT NULL,
-        status TEXT NOT NULL DEFAULT 'PENDING',
+        status TEXT DEFAULT 'PENDING',
         paid_at TEXT,
         created_at TEXT,
         updated_at TEXT

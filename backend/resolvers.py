@@ -40,8 +40,8 @@ def resolve_get_payment_status(_, info, orderId):
 
 def resolve_create_payment(_, info, orderId, userId, amount, method):
     payment_id = str(uuid.uuid4())
-    paid_at = datetime.utcnow().isoformat()
-    status = "success"  # bisa logic dynamic kalau perlu
+    paid_at = datetime.utcnow().strftime("%H:%M:%S %d-%m-%Y")
+    status = "PENDING"
 
     conn = get_db()
     cur = conn.cursor()

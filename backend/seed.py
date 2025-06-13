@@ -14,9 +14,9 @@ seed_payments = [
         "amount": 150000.0,
         "payment_method": "credit_card",
         "status": "SUCCESS",
-        "paid_at": datetime.utcnow().strftime("%H:%M:%S $d-%m-%Y"),
-        "created_at": datetime.utcnow().strftime("%H:%M:%S $d-%m-%Y"),
-        "updated_at": datetime.utcnow().strftime("%H:%M:%S $d-%m-%Y")
+        "paid_at": datetime.utcnow().strftime("%H:%M:%S %d-%m-%Y"),
+        "created_at": datetime.utcnow().strftime("%H:%M:%S %d-%m-%Y"),
+        "updated_at": datetime.utcnow().strftime("%H:%M:%S %d-%m-%Y")
     },
     {
         "payment_id": str(uuid.uuid4()),
@@ -26,8 +26,8 @@ seed_payments = [
         "payment_method": "bank_transfer",
         "status": "PENDING",
         "paid_at": None,
-        "created_at": datetime.utcnow().strftime("%H:%M:%S $d-%m-%Y"),
-        "updated_at": datetime.utcnow().strftime("%H:%M:%S $d-%m-%Y")
+        "created_at": datetime.utcnow().strftime("%H:%M:%S %d-%m-%Y"),
+        "updated_at": datetime.utcnow().strftime("%H:%M:%S %d-%m-%Y")
     },
     {
         "payment_id": str(uuid.uuid4()),
@@ -37,8 +37,8 @@ seed_payments = [
         "payment_method": "credit_card",
         "status": "FAILED",
         "paid_at": None,
-        "created_at": datetime.utcnow().strftime("%H:%M:%S $d-%m-%Y"),
-        "updated_at": datetime.utcnow().strftime("%H:%M:%S $d-%m-%Y")
+        "created_at": datetime.utcnow().strftime("%H:%M:%S %d-%m-%Y"),
+        "updated_at": datetime.utcnow().strftime("%H:%M:%S %d-%m-%Y")
     }
 ]
 
